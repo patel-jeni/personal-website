@@ -1,6 +1,5 @@
 import { Icons } from './Icon'
 import { meta } from '@/content/meta'
-import copy from '@/content/copy.json'
 
 export function Footer() {
   return (

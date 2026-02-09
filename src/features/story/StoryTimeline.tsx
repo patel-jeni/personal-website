@@ -4,7 +4,6 @@ import { TennisScene } from './scenes/TennisScene'
 import { TransitionScene } from './scenes/TransitionScene'
 import { MicrosoftScene } from './scenes/MicrosoftScene'
 import { MindfulnessScene } from './scenes/MindfulnessScene'
-import { Icons } from '@/components/Icon'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 const scenes = [

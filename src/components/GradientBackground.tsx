@@ -1,9 +1,4 @@
-import { motion } from 'framer-motion'
-import { useReducedMotion } from '@/hooks/useReducedMotion'
-
 export function GradientBackground() {
-  const shouldReduceMotion = useReducedMotion()
-
   return (
     <div className="fixed inset-0 -z-10 overflow-hidden" aria-hidden="true">
       {/* Base gradient overlay */}

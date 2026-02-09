@@ -30,7 +30,7 @@
       "@/hooks/*": ["./src/hooks/*"],
       "@/styles/*": ["./src/styles/*"],
       "@/config/*": ["./src/config/*"],
-      "@/content/*": ["./content/*"],
+      "@/content/*": ["./src/content/*"],
       "@/assets/*": ["./src/assets/*"]
     }
   },
