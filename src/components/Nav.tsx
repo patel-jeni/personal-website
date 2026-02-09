@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
 import { Icons } from './Icon'
-import { AudioToggle } from './AudioToggle'
 import { Logo } from './Logo'
 import copy from '@/content/copy.json'
 
@@ -59,20 +58,15 @@ export function Nav() {
             ))}
           </ul>
 
-          {/* Controls */}
-          <div className="flex items-center space-x-2">
-            <AudioToggle />
-
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden w-10 h-10 rounded-lg flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors"
-              aria-label="Toggle menu"
-              aria-expanded={isOpen}
-            >
-              {isOpen ? <Icons.Close /> : <Icons.Menu />}
-            </button>
-          </div>
+          {/* Mobile menu button */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden w-10 h-10 rounded-lg flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors"
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+          >
+            {isOpen ? <Icons.Close /> : <Icons.Menu />}
+          </button>
         </div>
 
         {/* Mobile Navigation */}
