@@ -9,17 +9,7 @@ import copy from '@/content/copy.json'
 
 export function Nav() {
   const [isOpen, setIsOpen] = useState(false)
-  const [isScrolled, setIsScrolled] = useState(false)
   const location = useLocation()
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   useEffect(() => {
     setIsOpen(false)
@@ -27,20 +17,14 @@ export function Nav() {
 
   const navItems = [
     { label: copy.nav.home, path: '/' },
-    { label: copy.nav.story, path: '/story' },
-    { label: copy.nav.projects, path: '/projects' },
     { label: copy.nav.about, path: '/about' },
+    { label: copy.nav.projects, path: '/projects' },
     { label: copy.nav.contact, path: '/contact' },
   ]
 
   return (
     <header
-      className={clsx(
-        'sticky top-0 z-40 w-full transition-all duration-300',
-        isScrolled
-          ? 'bg-base/80 backdrop-blur-lg border-b border-white/10'
-          : 'bg-transparent'
-      )}
+      className="sticky top-0 z-40 w-full bg-base/80 backdrop-blur-lg border-b border-white/10"
     >
       <nav
         className="container mx-auto px-4 sm:px-6 lg:px-8"

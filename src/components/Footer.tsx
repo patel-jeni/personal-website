@@ -49,12 +49,9 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Legal */}
+          {/* Attribution */}
           <div>
-            <p className="text-white/60 text-sm mb-2">
-              {copy.footer.disclaimer}
-            </p>
-            <p className="text-white/40 text-xs">{copy.footer.audioAttribution}</p>
+            <p className="text-white/60 text-sm">{copy.footer.audioAttribution}</p>
           </div>
         </div>
 
