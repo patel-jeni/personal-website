@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
 import { Icons } from './Icon'
 import { AudioToggle } from './AudioToggle'
+import { Logo } from './Logo'
 import copy from '@/content/copy.json'
 
 export function Nav() {
@@ -49,9 +50,10 @@ export function Nav() {
           {/* Logo/Home link */}
           <Link
             to="/"
-            className="text-xl font-display font-bold hover:text-accent-purple transition-colors"
+            className="hover:opacity-80 transition-opacity"
+            aria-label="Home"
           >
-            Portfolio
+            <Logo className="h-12 w-auto" />
           </Link>
 
           {/* Desktop Navigation */}
