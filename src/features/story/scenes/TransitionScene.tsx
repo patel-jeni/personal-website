@@ -54,7 +54,7 @@ export function TransitionScene() {
         <h2 className="text-4xl md:text-5xl font-display font-bold">
           {copy.story.transition.title}
         </h2>
-        <p className="text-lg md:text-xl text-white/80 max-ch-50 leading-relaxed">
+        <p className="text-lg md:text-xl text-white/80 max-ch-50 leading-relaxed whitespace-pre-line">
           {copy.story.transition.body}
         </p>
       </motion.div>
