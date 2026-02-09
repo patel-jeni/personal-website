@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import clsx from 'clsx'
 import { Icons } from './Icon'
-import { ThemeToggle } from './ThemeToggle'
 import { AudioToggle } from './AudioToggle'
 import copy from '@/content/copy.json'
 
@@ -76,7 +75,6 @@ export function Nav() {
 
           {/* Controls */}
           <div className="flex items-center space-x-2">
-            <ThemeToggle />
             <AudioToggle />
 
             {/* Mobile menu button */}
