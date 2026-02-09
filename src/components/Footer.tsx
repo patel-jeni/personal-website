@@ -48,7 +48,7 @@ export function Footer() {
           {/* Copyright */}
           <div className="pt-6 text-white/40 text-sm">
             <p>
-              © {new Date().getFullYear()} {meta.name}. Built with React, TypeScript, and Tailwind CSS.
+              © {new Date().getFullYear()} {meta.name}
             </p>
           </div>
         </div>
