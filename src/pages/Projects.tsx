@@ -40,7 +40,7 @@ export default function Projects() {
           </h1>
           <p className="text-xl text-white/70 max-w-2xl mx-auto">
             A selection of projects I've worked on, showcasing my skills in
-            full-stack and AI/ML development.
+            full-stack, AI and ML engineering.
           </p>
         </Chapter>
 

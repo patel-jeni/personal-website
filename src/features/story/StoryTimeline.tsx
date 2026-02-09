@@ -19,19 +19,23 @@ const AUTOPLAY_INTERVAL = 6000 // 6 seconds per slide
 export function StoryTimeline() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
+  const [slideKey, setSlideKey] = useState(0)
   const shouldReduceMotion = useReducedMotion()
   const timerRef = useRef<number | null>(null)
 
   const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % scenes.length)
+    setSlideKey((prev) => prev + 1)
   }, [])
 
   const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + scenes.length) % scenes.length)
+    setSlideKey((prev) => prev + 1)
   }, [])
 
   const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index)
+    setSlideKey((prev) => prev + 1)
   }, [])
 
   // Auto-advance timer - simple and reliable
@@ -59,7 +63,7 @@ export function StoryTimeline() {
         timerRef.current = null
       }
     }
-  }, [currentIndex, isPaused, goToNext])
+  }, [slideKey, isPaused, goToNext])
 
   // Pause on hover
   const handleMouseEnter = () => {
@@ -163,7 +167,7 @@ export function StoryTimeline() {
                 <div className="h-1 bg-white/20 rounded-full overflow-hidden">
                   {isActive ? (
                     <div
-                      key={currentIndex}
+                      key={slideKey}
                       className="h-full bg-gradient-to-r from-accent-purple to-accent-magenta rounded-full"
                       style={{
                         animation: `progressBar ${AUTOPLAY_INTERVAL}ms linear forwards`,
