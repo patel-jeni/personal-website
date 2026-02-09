@@ -1,7 +1,5 @@
 import { motion } from 'framer-motion'
-import { Link } from 'react-router-dom'
 import { Card } from '@/components/Card'
-import { Button } from '@/components/Button'
 import { Chapter } from '@/components/Chapter'
 import { Icons } from '@/components/Icon'
 import copy from '@/content/copy.json'
@@ -13,27 +11,27 @@ const projects = [
     title: 'Project One',
     description: 'A scalable web application built with React and TypeScript.',
     tech: ['React', 'TypeScript', 'Node.js', 'PostgreSQL'],
-    link: '#',
+    link: '/404',
   },
   {
     id: 2,
     title: 'Project Two',
     description: 'Cloud-native microservices architecture on Azure.',
     tech: ['Azure', 'Docker', 'Kubernetes', 'Go'],
-    link: '#',
+    link: '/404',
   },
   {
     id: 3,
     title: 'Project Three',
     description: 'Performance optimization reducing load time by 60%.',
     tech: ['Performance', 'Webpack', 'React', 'Lighthouse'],
-    link: '#',
+    link: '/404',
   },
 ]
 
 export default function Projects() {
   return (
-    <main id="main-content" className="py-16">
+    <main id="main-content" className="min-h-screen py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <Chapter className="mb-16 text-center">
@@ -42,8 +40,7 @@ export default function Projects() {
           </h1>
           <p className="text-xl text-white/70 max-w-2xl mx-auto">
             A selection of projects I've worked on, showcasing my skills in
-            full-stack development, cloud architecture, and performance
-            optimization.
+            full-stack and AI/ML development.
           </p>
         </Chapter>
 
@@ -84,22 +81,26 @@ export default function Projects() {
           ))}
         </div>
 
-        {/* AI/ML CTA */}
+        {/* Skills Section */}
         <Chapter>
-          <Card className="text-center py-12">
-            <h2 className="text-3xl font-display font-bold mb-4">
-              AI & Machine Learning Projects
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-display font-bold mb-8 text-center">
+              Skills & Expertise
             </h2>
-            <p className="text-white/70 mb-8 max-w-2xl mx-auto">
-              Exploring the intersection of AI, machine learning, and software
-              engineering. Check out my specialized ML projects.
-            </p>
-            <Link to="/projects/ai-ml">
-              <Button variant="primary" size="lg">
-                {copy.projects.aiMlCta}
-              </Button>
-            </Link>
-          </Card>
+            <Card>
+              <div className="flex flex-wrap gap-3 justify-center">
+                {copy.about.skills.map((skill) => (
+                  <motion.span
+                    key={skill}
+                    whileHover={{ scale: 1.05 }}
+                    className="px-4 py-2 bg-gradient-to-br from-accent-purple/20 to-accent-magenta/20 border border-accent-purple/30 rounded-lg text-white font-medium"
+                  >
+                    {skill}
+                  </motion.span>
+                ))}
+              </div>
+            </Card>
+          </div>
         </Chapter>
       </div>
     </main>
