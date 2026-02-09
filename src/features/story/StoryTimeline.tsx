@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TennisScene } from './scenes/TennisScene'
 import { TransitionScene } from './scenes/TransitionScene'
@@ -18,36 +18,38 @@ const AUTOPLAY_INTERVAL = 6000 // 6 seconds per slide
 
 export function StoryTimeline() {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(true)
   const [isPaused, setIsPaused] = useState(false)
   const shouldReduceMotion = useReducedMotion()
-  const autoplayTimeout = useRef<number | null>(null)
+  const timerRef = useRef<number | null>(null)
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % scenes.length)
-  }
+  }, [])
 
-  const goToPrevious = () => {
+  const goToPrevious = useCallback(() => {
     setCurrentIndex((prev) => (prev - 1 + scenes.length) % scenes.length)
-  }
+  }, [])
 
-  const goToSlide = (index: number) => {
+  const goToSlide = useCallback((index: number) => {
     setCurrentIndex(index)
-  }
+  }, [])
 
-  // Auto-play
+  // Auto-advance timer
   useEffect(() => {
-    if (!isPlaying || isPaused) return
+    if (isPaused) {
+      return
+    }
 
-    // Auto-advance to next slide
-    autoplayTimeout.current = window.setTimeout(() => {
-      setCurrentIndex((prev) => (prev + 1) % scenes.length)
+    timerRef.current = window.setTimeout(() => {
+      goToNext()
     }, AUTOPLAY_INTERVAL)
 
     return () => {
-      if (autoplayTimeout.current) clearTimeout(autoplayTimeout.current)
+      if (timerRef.current) {
+        clearTimeout(timerRef.current)
+      }
     }
-  }, [currentIndex, isPlaying, isPaused])
+  }, [currentIndex, isPaused, goToNext])
 
   // Pause on hover
   const handleMouseEnter = () => {
@@ -62,15 +64,15 @@ export function StoryTimeline() {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') {
-        setCurrentIndex((prev) => (prev + 1) % scenes.length)
+        goToNext()
       } else if (e.key === 'ArrowLeft') {
-        setCurrentIndex((prev) => (prev - 1 + scenes.length) % scenes.length)
+        goToPrevious()
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [goToNext, goToPrevious])
 
   // Touch/swipe support
   useEffect(() => {
@@ -89,9 +91,9 @@ export function StoryTimeline() {
     const handleSwipe = () => {
       const swipeThreshold = 50
       if (touchStartX - touchEndX > swipeThreshold) {
-        setCurrentIndex((prev) => (prev + 1) % scenes.length)
+        goToNext()
       } else if (touchEndX - touchStartX > swipeThreshold) {
-        setCurrentIndex((prev) => (prev - 1 + scenes.length) % scenes.length)
+        goToPrevious()
       }
     }
 
@@ -102,7 +104,7 @@ export function StoryTimeline() {
       window.removeEventListener('touchstart', handleTouchStart)
       window.removeEventListener('touchend', handleTouchEnd)
     }
-  }, [])
+  }, [goToNext, goToPrevious])
 
   const CurrentScene = scenes[currentIndex].component
 
@@ -117,10 +119,13 @@ export function StoryTimeline() {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={shouldReduceMotion ? {} : { opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.8, ease: [0.6, 0.6, 0, 1] }}
+            initial={shouldReduceMotion ? {} : { opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={shouldReduceMotion ? {} : { opacity: 0 }}
+            transition={{
+              duration: 0.5,
+              ease: "easeInOut"
+            }}
           >
             <CurrentScene />
           </motion.div>
@@ -131,37 +136,42 @@ export function StoryTimeline() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         {/* Progress bars with scene titles */}
         <div className="flex items-center justify-center gap-4 mb-6">
-          {scenes.map((scene, index) => (
-            <button
-              key={scene.id}
-              onClick={() => goToSlide(index)}
-              className="flex-1 max-w-[200px] group"
-              aria-label={`Go to ${scene.title}`}
-            >
-              <div className="mb-2 text-xs text-white/60 group-hover:text-white/80 transition-colors text-center truncate">
-                {scene.title}
-              </div>
-              <div className="h-1 bg-white/20 rounded-full overflow-hidden">
-                <motion.div
-                  key={`progress-${currentIndex}-${index}`}
-                  className="h-full bg-gradient-to-r from-accent-purple to-accent-magenta rounded-full"
-                  initial={{ width: index < currentIndex ? '100%' : '0%' }}
-                  animate={{
-                    width:
-                      index === currentIndex
-                        ? isPaused ? undefined : '100%'
-                        : index < currentIndex
-                        ? '100%'
-                        : '0%',
-                  }}
-                  transition={{
-                    duration: index === currentIndex && !isPaused ? AUTOPLAY_INTERVAL / 1000 : 0,
-                    ease: 'linear',
-                  }}
-                />
-              </div>
-            </button>
-          ))}
+          {scenes.map((scene, index) => {
+            const isActive = index === currentIndex
+            const isComplete = index < currentIndex
+
+            return (
+              <button
+                key={scene.id}
+                onClick={() => goToSlide(index)}
+                className="flex-1 max-w-[200px] group"
+                aria-label={`Go to ${scene.title}`}
+              >
+                <div className="mb-2 text-xs text-white/60 group-hover:text-white/80 transition-colors text-center truncate">
+                  {scene.title}
+                </div>
+                <div className="h-1 bg-white/20 rounded-full overflow-hidden">
+                  {isActive ? (
+                    <div
+                      key={`active-${currentIndex}`}
+                      className="h-full bg-gradient-to-r from-accent-purple to-accent-magenta rounded-full"
+                      style={{
+                        animation: `progressBar ${AUTOPLAY_INTERVAL}ms linear forwards`,
+                        animationPlayState: isPaused ? 'paused' : 'running'
+                      }}
+                    />
+                  ) : (
+                    <div
+                      className="h-full bg-gradient-to-r from-accent-purple to-accent-magenta rounded-full transition-[width] duration-300 ease-linear"
+                      style={{
+                        width: isComplete ? '100%' : '0%'
+                      }}
+                    />
+                  )}
+                </div>
+              </button>
+            )
+          })}
         </div>
 
         {/* Chapter indicator */}
