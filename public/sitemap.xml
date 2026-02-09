@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://username.github.io/portfolio/</loc>
+    <loc>https://patel-jeni.github.io/personal-website/</loc>
     <priority>1.0</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://username.github.io/portfolio/story</loc>
+    <loc>https://patel-jeni.github.io/personal-website/story</loc>
     <priority>0.8</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://username.github.io/portfolio/projects</loc>
+    <loc>https://patel-jeni.github.io/personal-website/projects</loc>
     <priority>0.8</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
-    <loc>https://username.github.io/portfolio/projects/ai-ml</loc>
+    <loc>https://patel-jeni.github.io/personal-website/projects/ai-ml</loc>
     <priority>0.7</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://username.github.io/portfolio/about</loc>
+    <loc>https://patel-jeni.github.io/personal-website/about</loc>
     <priority>0.6</priority>
     <changefreq>monthly</changefreq>
   </url>
   <url>
-    <loc>https://username.github.io/portfolio/contact</loc>
+    <loc>https://patel-jeni.github.io/personal-website/contact</loc>
     <priority>0.6</priority>
     <changefreq>yearly</changefreq>
   </url>

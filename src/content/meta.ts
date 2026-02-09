@@ -1,12 +1,11 @@
 export const meta = {
-  name: 'Your Name',
+  name: 'Jeni Patel',
   title: 'Software Engineer',
   bio: 'Former professional tennis player turned software engineer at Microsoft. I build scalable systems and find balance through mindfulness.',
-  email: 'you@example.com',
+  email: 'jenipatel006@gmail.com',
   social: {
-    linkedin: 'https://linkedin.com/in/yourprofile',
-    github: 'https://github.com/yourusername',
-    twitter: 'https://twitter.com/yourhandle', // optional
+    linkedin: 'https://www.linkedin.com/in/jeni-patel/',
+    github: 'https://github.com/patel-jeni',
   },
   resumeUrl: '/resume.pdf',
   location: 'Seattle, WA',

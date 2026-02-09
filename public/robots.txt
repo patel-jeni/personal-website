@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://username.github.io/portfolio/sitemap.xml
+Sitemap: https://patel-jeni.github.io/personal-website/sitemap.xml
