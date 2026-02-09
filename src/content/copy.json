@@ -1,0 +1,74 @@
+{
+  "hero": {
+    "headline": "From Tennis Courts to Code",
+    "subheadline": "Building thoughtful software at Microsoft",
+    "cta": "Explore My Journey"
+  },
+  "story": {
+    "tennis": {
+      "title": "Professional Tennis",
+      "body": "For years, I competed on the professional tennis circuit, learning discipline, resilience, and the art of continuous improvement. Every match taught me the value of strategy, adaptability, and mental fortitude—skills that would later become invaluable in my tech career."
+    },
+    "transition": {
+      "title": "Career Transition",
+      "body": "The decision to pivot from athletics to technology wasn't easy, but it was driven by a passion for problem-solving and creating impact at scale. I immersed myself in learning to code, discovering that the same dedication that made me a competitive athlete could be channeled into building software."
+    },
+    "microsoft": {
+      "title": "Software Engineer at Microsoft",
+      "body": "Today, I build scalable systems that impact millions of users. At Microsoft, I apply the same principles of excellence and continuous improvement that defined my athletic career. Every line of code is an opportunity to make a difference."
+    },
+    "mindfulness": {
+      "title": "Mindfulness & Balance",
+      "body": "Outside of work, I find balance through hiking, meditation, and connecting with nature. The lessons from tennis—presence, focus, and breathing through challenges—continue to guide me in both my professional and personal life."
+    }
+  },
+  "projects": {
+    "heading": "Featured Projects",
+    "aiMlCta": "View AI/ML Projects"
+  },
+  "aiMl": {
+    "heading": "AI/ML Projects Coming Soon",
+    "description": "I'm working on showcasing my machine learning and AI projects. Sign up to be notified when this section launches.",
+    "formLabel": "Email Address",
+    "formPlaceholder": "your@email.com",
+    "formSubmit": "Notify Me",
+    "successMessage": "Thanks! You'll be the first to know.",
+    "errorMessage": "Please enter a valid email address."
+  },
+  "about": {
+    "heading": "About Me",
+    "skills": [
+      "TypeScript",
+      "React",
+      "Node.js",
+      "Python",
+      "Azure",
+      "System Design",
+      "Machine Learning",
+      "Performance Optimization"
+    ]
+  },
+  "contact": {
+    "heading": "Let's Connect",
+    "description": "I'm always interested in hearing about new opportunities, collaborations, or just connecting with interesting people.",
+    "emailLabel": "Email me directly",
+    "socialLabel": "Connect on social"
+  },
+  "footer": {
+    "disclaimer": "All opinions expressed are my own.",
+    "audioAttribution": "Music: 'Ambient Calm' by Artist Name (CC BY 4.0)"
+  },
+  "nav": {
+    "home": "Home",
+    "story": "Story",
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "404": {
+    "heading": "Lost in Space?",
+    "description": "This page doesn't exist. Let's get you back on track.",
+    "cta": "Back to Home",
+    "easterEgg": "You've been here before... Are you exploring or just lost? 🚀"
+  }
+}

@@ -1,0 +1,84 @@
+@import './tokens.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply font-sans antialiased;
+    @apply bg-base text-white;
+    @apply transition-colors duration-300;
+  }
+
+  body.light {
+    @apply bg-base-light text-gray-900;
+  }
+
+  * {
+    @apply border-gray-800;
+  }
+
+  .light * {
+    @apply border-gray-200;
+  }
+}
+
+@layer components {
+  /* Focus visible styles for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-accent-purple ring-offset-2 ring-offset-base;
+  }
+
+  .light *:focus-visible {
+    @apply ring-offset-base-light;
+  }
+
+  /* Skip to content link */
+  .skip-link {
+    @apply absolute -top-full left-0 z-50;
+    @apply bg-accent-purple text-base px-4 py-2 rounded;
+    @apply transition-all duration-200;
+  }
+
+  .skip-link:focus {
+    @apply top-4;
+  }
+
+  /* Glassmorphic card effect */
+  .glass-card {
+    @apply bg-white/5 backdrop-blur-md;
+    @apply border border-white/10;
+    @apply rounded-2xl;
+  }
+
+  .light .glass-card {
+    @apply bg-black/5 border-black/10;
+  }
+}
+
+@layer utilities {
+  /* Text gradients */
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(
+      135deg,
+      var(--gradient-from),
+      var(--gradient-via),
+      var(--gradient-to)
+    );
+  }
+
+  /* Max line length for readability */
+  .max-ch-50 {
+    max-width: 50ch;
+  }
+
+  .max-ch-70 {
+    max-width: 70ch;
+  }
+}
