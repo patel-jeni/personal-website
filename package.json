@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.4",
+    "@lottiefiles/react-lottie-player": "^3.6.0",
     "clsx": "^2.1.0",
     "framer-motion": "^11.0.0",
     "lottie-react": "^2.4.0",

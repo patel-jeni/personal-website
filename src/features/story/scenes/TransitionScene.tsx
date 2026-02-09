@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion'
+import { Player } from '@lottiefiles/react-lottie-player'
 import copy from '@/content/copy.json'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
+import rocketAnimation from '@/assets/animations/rocket-transition.json'
 
 export function TransitionScene() {
   const shouldReduceMotion = useReducedMotion()
@@ -33,64 +35,18 @@ export function TransitionScene() {
       exit={{ opacity: 0 }}
       className="grid lg:grid-cols-2 gap-12 items-center min-h-[70vh]"
     >
-      {/* Illustration */}
+      {/* Animated Rocket Illustration */}
       <motion.div
         variants={itemVariants}
         className="flex items-center justify-center"
       >
-        <div className="relative w-full max-w-md aspect-square">
-          {/* Placeholder: Transition/bridge illustration */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <svg
-              viewBox="0 0 200 200"
-              className="w-full h-full"
-              aria-label="Career transition illustration"
-            >
-              {/* Arrow path showing transition */}
-              <defs>
-                <linearGradient id="gradient2" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="var(--gradient-from)" />
-                  <stop offset="50%" stopColor="var(--gradient-via)" />
-                  <stop offset="100%" stopColor="var(--gradient-to)" />
-                </linearGradient>
-              </defs>
-              <path
-                d="M 30 100 Q 100 30 170 100"
-                fill="none"
-                stroke="url(#gradient2)"
-                strokeWidth="6"
-                strokeLinecap="round"
-              />
-              {/* Arrow head */}
-              <polygon
-                points="170,100 160,95 160,105"
-                fill="var(--gradient-to)"
-              />
-              {/* Starting point */}
-              <circle
-                cx="30"
-                cy="100"
-                r="8"
-                fill="var(--gradient-from)"
-              />
-              {/* Milestone markers */}
-              {[40, 50, 60, 70, 80, 90].map((percent) => {
-                const x = 30 + (170 - 30) * (percent / 100)
-                const y = 100 - Math.sin((percent / 100) * Math.PI) * 70
-                return (
-                  <circle
-                    key={percent}
-                    cx={x}
-                    cy={y}
-                    r="3"
-                    fill="var(--gradient-via)"
-                    opacity="0.6"
-                  />
-                )
-              })}
-            </svg>
-          </div>
-        </div>
+        <Player
+          autoplay
+          loop={!shouldReduceMotion}
+          src={rocketAnimation}
+          style={{ height: '400px', width: '400px' }}
+          className="drop-shadow-2xl"
+        />
       </motion.div>
 
       {/* Content */}
