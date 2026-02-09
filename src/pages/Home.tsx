@@ -32,23 +32,31 @@ export default function Home() {
     <main id="main-content" className="relative min-h-screen">
       <GradientBackground />
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 min-h-screen flex items-center justify-center relative">
+        {/* Glow effect behind text */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-[600px] h-[600px] bg-gradient-to-r from-accent-purple/20 via-accent-magenta/20 to-accent-blue/20 rounded-full blur-3xl" />
+        </div>
+
         <motion.div
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="max-w-3xl text-center"
+          className="max-w-4xl text-center relative z-10"
         >
           <motion.h1
             variants={itemVariants}
-            className="text-5xl md:text-6xl lg:text-7xl font-display font-bold mb-6"
+            className="text-5xl md:text-6xl lg:text-8xl font-display font-bold mb-6 bg-gradient-to-r from-white via-accent-purple to-accent-magenta bg-clip-text text-transparent leading-tight"
+            style={{
+              textShadow: '0 0 80px rgba(186, 156, 255, 0.5)',
+            }}
           >
             {copy.hero.headline}
           </motion.h1>
 
           <motion.p
             variants={itemVariants}
-            className="text-xl md:text-2xl text-white/80 mb-12"
+            className="text-xl md:text-2xl lg:text-3xl text-white/90 mb-12 font-light"
           >
             {copy.hero.subheadline}
           </motion.p>
