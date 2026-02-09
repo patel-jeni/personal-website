@@ -9,23 +9,12 @@ export function GradientBackground() {
       {/* Base gradient overlay */}
       <div className="absolute inset-0 bg-base" />
 
-      {/* Single large animated gradient orb */}
-      <motion.div
-        className="absolute top-1/2 left-1/2 w-[1200px] h-[1200px] rounded-full blur-3xl"
+      {/* Single large static gradient orb */}
+      <div
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[1200px] rounded-full blur-3xl"
         style={{
           background: 'radial-gradient(circle, rgba(186, 156, 255, 0.4) 0%, rgba(252, 114, 255, 0.3) 40%, rgba(72, 123, 255, 0.2) 70%, transparent 100%)',
-          x: '-50%',
-          y: '-50%',
-          transformOrigin: 'center center',
-        }}
-        animate={{
-          scale: [1, 1.05, 1],
-          opacity: [0.5, 0.6, 0.5],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: 'easeInOut',
+          opacity: 0.5,
         }}
       />
 
