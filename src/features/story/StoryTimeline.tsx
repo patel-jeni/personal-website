@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import { TennisScene } from './scenes/TennisScene'
 import { TransitionScene } from './scenes/TransitionScene'
@@ -8,15 +8,20 @@ import { Icons } from '@/components/Icon'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 const scenes = [
-  { id: 'tennis', component: TennisScene },
-  { id: 'transition', component: TransitionScene },
-  { id: 'microsoft', component: MicrosoftScene },
-  { id: 'mindfulness', component: MindfulnessScene },
+  { id: 'tennis', component: TennisScene, title: 'Professional Tennis' },
+  { id: 'transition', component: TransitionScene, title: 'Career Transition' },
+  { id: 'microsoft', component: MicrosoftScene, title: 'Microsoft' },
+  { id: 'mindfulness', component: MindfulnessScene, title: 'Mindfulness & Balance' },
 ]
+
+const AUTOPLAY_INTERVAL = 6000 // 6 seconds per slide
 
 export function StoryTimeline() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPaused, setIsPaused] = useState(false)
   const shouldReduceMotion = useReducedMotion()
+  const autoplayTimeout = useRef<number | null>(null)
 
   const goToNext = () => {
     setCurrentIndex((prev) => (prev + 1) % scenes.length)
@@ -30,13 +35,36 @@ export function StoryTimeline() {
     setCurrentIndex(index)
   }
 
+  // Auto-play
+  useEffect(() => {
+    if (!isPlaying || isPaused) return
+
+    // Auto-advance to next slide
+    autoplayTimeout.current = window.setTimeout(() => {
+      setCurrentIndex((prev) => (prev + 1) % scenes.length)
+    }, AUTOPLAY_INTERVAL)
+
+    return () => {
+      if (autoplayTimeout.current) clearTimeout(autoplayTimeout.current)
+    }
+  }, [currentIndex, isPlaying, isPaused])
+
+  // Pause on hover
+  const handleMouseEnter = () => {
+    setIsPaused(true)
+  }
+
+  const handleMouseLeave = () => {
+    setIsPaused(false)
+  }
+
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') {
-        goToNext()
+        setCurrentIndex((prev) => (prev + 1) % scenes.length)
       } else if (e.key === 'ArrowLeft') {
-        goToPrevious()
+        setCurrentIndex((prev) => (prev - 1 + scenes.length) % scenes.length)
       }
     }
 
@@ -61,9 +89,9 @@ export function StoryTimeline() {
     const handleSwipe = () => {
       const swipeThreshold = 50
       if (touchStartX - touchEndX > swipeThreshold) {
-        goToNext()
+        setCurrentIndex((prev) => (prev + 1) % scenes.length)
       } else if (touchEndX - touchStartX > swipeThreshold) {
-        goToPrevious()
+        setCurrentIndex((prev) => (prev - 1 + scenes.length) % scenes.length)
       }
     }
 
@@ -79,16 +107,20 @@ export function StoryTimeline() {
   const CurrentScene = scenes[currentIndex].component
 
   return (
-    <div className="relative min-h-screen flex flex-col justify-center py-16">
+    <div
+      className="relative min-h-screen flex flex-col justify-center py-16"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {/* Scene container */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentIndex}
-            initial={shouldReduceMotion ? {} : { opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={shouldReduceMotion ? {} : { opacity: 0, x: -50 }}
-            transition={{ duration: 0.6, ease: [0.6, 0.6, 0, 1] }}
+            initial={shouldReduceMotion ? {} : { opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={shouldReduceMotion ? {} : { opacity: 0, scale: 1.05 }}
+            transition={{ duration: 0.8, ease: [0.6, 0.6, 0, 1] }}
           >
             <CurrentScene />
           </motion.div>
@@ -97,59 +129,45 @@ export function StoryTimeline() {
 
       {/* Navigation Controls */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
-        <div className="flex items-center justify-between">
-          {/* Previous button */}
-          <button
-            onClick={goToPrevious}
-            disabled={currentIndex === 0}
-            className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            aria-label="Previous chapter"
-          >
-            <Icons.ChevronLeft />
-          </button>
-
-          {/* Pagination dots */}
-          <div
-            className="flex items-center space-x-3"
-            role="tablist"
-            aria-label="Story chapters"
-          >
-            {scenes.map((scene, index) => (
-              <button
-                key={scene.id}
-                onClick={() => goToSlide(index)}
-                className={`transition-all ${
-                  index === currentIndex
-                    ? 'w-8 h-3 bg-accent-purple'
-                    : 'w-3 h-3 bg-white/30 hover:bg-white/50'
-                } rounded-full`}
-                aria-label={`Go to chapter ${index + 1}`}
-                aria-selected={index === currentIndex}
-                role="tab"
-              />
-            ))}
-          </div>
-
-          {/* Next button */}
-          <button
-            onClick={goToNext}
-            disabled={currentIndex === scenes.length - 1}
-            className="w-12 h-12 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 disabled:opacity-30 disabled:cursor-not-allowed transition-all"
-            aria-label="Next chapter"
-          >
-            <Icons.ChevronRight />
-          </button>
+        {/* Progress bars with scene titles */}
+        <div className="flex items-center justify-center gap-4 mb-6">
+          {scenes.map((scene, index) => (
+            <button
+              key={scene.id}
+              onClick={() => goToSlide(index)}
+              className="flex-1 max-w-[200px] group"
+              aria-label={`Go to ${scene.title}`}
+            >
+              <div className="mb-2 text-xs text-white/60 group-hover:text-white/80 transition-colors text-center truncate">
+                {scene.title}
+              </div>
+              <div className="h-1 bg-white/20 rounded-full overflow-hidden">
+                <motion.div
+                  key={`progress-${currentIndex}-${index}`}
+                  className="h-full bg-gradient-to-r from-accent-purple to-accent-magenta rounded-full"
+                  initial={{ width: index < currentIndex ? '100%' : '0%' }}
+                  animate={{
+                    width:
+                      index === currentIndex
+                        ? isPaused ? undefined : '100%'
+                        : index < currentIndex
+                        ? '100%'
+                        : '0%',
+                  }}
+                  transition={{
+                    duration: index === currentIndex && !isPaused ? AUTOPLAY_INTERVAL / 1000 : 0,
+                    ease: 'linear',
+                  }}
+                />
+              </div>
+            </button>
+          ))}
         </div>
 
-        {/* Progress indicator */}
-        <div className="mt-8 text-center text-white/60 text-sm">
+        {/* Chapter indicator */}
+        <div className="text-center text-white/60 text-sm">
           Chapter {currentIndex + 1} of {scenes.length}
         </div>
-      </div>
-
-      {/* Keyboard hint */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-4 text-center text-white/40 text-xs">
-        Use arrow keys or swipe to navigate
       </div>
     </div>
   )
