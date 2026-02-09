@@ -34,19 +34,29 @@ export function StoryTimeline() {
     setCurrentIndex(index)
   }, [])
 
-  // Auto-advance timer
+  // Auto-advance timer - simple and reliable
   useEffect(() => {
+    // Clear any existing timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current)
+      timerRef.current = null
+    }
+
+    // Don't set new timer if paused
     if (isPaused) {
       return
     }
 
+    // Set new timer for exactly AUTOPLAY_INTERVAL
     timerRef.current = window.setTimeout(() => {
       goToNext()
     }, AUTOPLAY_INTERVAL)
 
+    // Cleanup on unmount or when dependencies change
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current)
+        timerRef.current = null
       }
     }
   }, [currentIndex, isPaused, goToNext])
@@ -153,7 +163,7 @@ export function StoryTimeline() {
                 <div className="h-1 bg-white/20 rounded-full overflow-hidden">
                   {isActive ? (
                     <div
-                      key={`active-${currentIndex}`}
+                      key={currentIndex}
                       className="h-full bg-gradient-to-r from-accent-purple to-accent-magenta rounded-full"
                       style={{
                         animation: `progressBar ${AUTOPLAY_INTERVAL}ms linear forwards`,
